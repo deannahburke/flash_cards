@@ -15,5 +15,18 @@ class Round
         turn = Turn.new(guess, current_card)
         @turns.push(turn)
         @turns.first
+        require 'pry'; binding.pry
+    end
+
+    def number_correct
+        #add correct and incorrect arrays to attributes, just count in number correct and add helper method to add guesses to incorrect or correct array
+        correct = []
+        incorrect = []
+        if @turns.first.correct? 
+            correct << @turns.first
+        else
+            incorrect << @turns.first
+        end
+        correct.length
     end
 end
