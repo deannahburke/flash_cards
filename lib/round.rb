@@ -1,10 +1,14 @@
 class Round
     attr_reader :deck,
-                :turns
+                :turns,
+                :correct,
+                :incorrect
 
     def initialize(deck)
         @deck = deck 
         @turns = []
+        @correct = []
+        @incorrect = []
     end
 
     def current_card
@@ -14,19 +18,24 @@ class Round
     def take_turn(guess)
         turn = Turn.new(guess, current_card)
         @turns.push(turn)
+        sort_correct(turn)
+        @deck.cards.shift
         @turns.first
-        require 'pry'; binding.pry
+    end
+
+    def sort_correct(turn)
+        if turn.correct? 
+            @correct << turn
+        else
+            @incorrect << turn
+        end
     end
 
     def number_correct
-        #add correct and incorrect arrays to attributes, just count in number correct and add helper method to add guesses to incorrect or correct array
-        correct = []
-        incorrect = []
-        if @turns.first.correct? 
-            correct << @turns.first
-        else
-            incorrect << @turns.first
-        end
-        correct.length
+        @correct.length
+    end
+
+    def number_correct_by_category(category) 
+        @correct.find_all { |turn| turn.card.category == category }.count
     end
 end
