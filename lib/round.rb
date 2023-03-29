@@ -42,4 +42,12 @@ class Round
     def percent_correct
        (@correct.length) / (@turns.length).to_f * 100
     end
+
+    def sort_by_category(category)
+       total_category = @turns.find_all { |turn| turn.card.category == category }.count
+    end
+
+    def percent_correct_by_category(category)
+        (number_correct_by_category(category)) / (sort_by_category(category)).to_f * 100
+    end
 end
